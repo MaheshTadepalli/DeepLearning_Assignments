@@ -1,257 +1,293 @@
-# GNR638 – Programming Assignment  
-## Custom Deep Learning Framework (C++ Backend + Python Frontend)
+#GNR638 – Programming Assignment
+Custom Deep Learning Framework (C++ Backend + Python Frontend)
+👤 Student Information
 
----
+Course: Machine Learning for Remote Sensing – II (Spring 2025-26)
+Assignment: Design a Deep Learning Framework
 
-## 1. Overview
+📌 Overview
 
-This repository implements a custom deep learning framework from scratch as part of the GNR638: Machine Learning for Remote Sensing - II course.
+This repository contains a custom deep learning framework built completely from scratch using:
 
-The framework includes:
+C++ backend (tensor operations, autograd, CNN layers)
 
-- Tensor abstraction with gradient tracking
-- Automatic differentiation and backpropagation
-- Convolutional layers
-- Activation functions
-- Pooling layers
-- Fully connected layers
-- Softmax + Cross Entropy loss
-- SGD optimizer with L2 regularization
-- C++ backend with Python bindings (via pybind11)
+Python frontend (training, evaluation, dataset handling)
 
-No external deep learning or numerical libraries are used.
+⚠️ No deep learning frameworks (PyTorch, TensorFlow, NumPy, etc.) were used.
+Only standard libraries and OpenCV (for image loading) are used as permitted.
 
----
+🧠 Framework Features
 
-## 2. Repository Structure
+The framework supports:
 
-assign1/
-│
-├── cpp/
-│ ├── tensor.h
-│ ├── ops.cpp
-│ ├── conv.cpp
-│ ├── bindings.cpp
-│ ├── CMakeLists.txt
-│
-├── python/
-│ ├── dataset.py
-│ ├── model.py
-│ ├── loss.py
-│ ├── optimizer.py
-│ ├── train.py
-│
-└── README.md
+Tensor abstraction with gradient tracking
 
-yaml
-Copy code
+Automatic differentiation (backpropagation)
 
----
+Convolution layer
 
-## 3. Framework Components
+ReLU activation
 
-### 3.1 Tensor
+MaxPooling layer
 
-- Stores data and gradients
-- Tracks `requires_grad`
-- Supports backpropagation via `backward()`
-- Implemented in C++
+Fully connected layer
 
-### 3.2 Implemented Operations
+Softmax + Cross Entropy loss
 
-- add
-- matmul
-- conv2d
-- relu
-- sigmoid
-- maxpool2d
-- flatten
-- linear
-- softmax_cross_entropy (fused)
+SGD optimizer with L2 regularization
 
-All operations support automatic differentiation.
+Training / Validation split
 
----
+Early stopping
 
-## 4. Dataset Handling
+Model saving & loading
 
-- Dataset is expected in image-folder format:
+🏗 Model Architecture
 
-root/
-class_1/
-image1.png
-image2.png
-class_2/
-image3.png
-...
+The CNN used for both Dataset-1 and Dataset-2:
 
-yaml
-Copy code
+Input: 32×32×3 image
 
-- Only PNG images are loaded.
-- Images are resized to 32×32.
-- Pixel values normalized to [0,1].
-- All images are preloaded into memory.
-- Dataset loading time is measured and printed.
-
----
-
-## 5. Model Architecture
-
-### Dataset 1 (10 Classes)
-
-Input: 32x32x3
-Conv: 3x3, 3→8
+Conv1: 3×3 kernel, 3 → 16 filters
 ReLU
-MaxPool 2x2
-Flatten
-FC: 1800→10
+MaxPool (2×2, stride 2)
 
-shell
-Copy code
-
-### Dataset 2 (100 Classes)
-
-Input: 32x32x3
-Conv: 3x3, 3→16
+Conv2: 3×3 kernel, 16 → 32 filters
 ReLU
-MaxPool 2x2
+MaxPool (2×2, stride 2)
+MaxPool (2×2, stride 2)
+
 Flatten
-FC: 3600→100
 
-yaml
-Copy code
+Fully Connected:
+(3×3×32) → num_classes
 
-All layers are implemented using the custom framework.
+Softmax (via fused softmax_cross_entropy)
 
----
+📊 Model Complexity
 
-## 6. Training Configuration
+Printed automatically during training:
 
-Training uses:
-
-- SGD optimizer
-- L2 regularization (weight decay)
-- Train/Validation split (80/20)
-- Early stopping (patience-based)
-- Best model weight saving
-
-Hyperparameters are configurable inside `train.py`.
-
----
-
-## 7. Building the C++ Backend
-
-### Requirements
-
-- Python 3.12
-- CMake
-- C++ compiler
-- pybind11
-
-### Steps
-
-From inside the `cpp` directory:
-
-mkdir build
-cd build
-cmake ..
-cmake --build . --config Release
-This generates the Python extension module:
-
-scss
-Copy code
-mydl_cpp.pyd   (Windows)
-mydl_cpp.so    (Linux/Mac)
-Make sure this file is accessible from the python/ directory.
-
-8. Running Training
-From inside the python directory:
-
-bash
-Copy code
-python train.py --dataset_path <PATH_TO_DATASET>
-Example:
-
-bash
-Copy code
-python train.py --dataset_path /path/to/dataset1
-During training, the script prints:
-
-Dataset size
-
-Dataset loading time
-
-Parameter count
-
-MACs
-
-FLOPs
-
-Training loss and accuracy
-
-Validation loss and accuracy
-
-Epoch time
-
-The best model is saved as:
-
-Copy code
-best_model.pkl
-9. Running Evaluation
-Evaluation script should be run with:
-
-Path to hidden dataset
-
-Path to saved weights (best_model.pkl)
-
-No code modifications are required.
-
-10. Performance & Constraints
-Training completes within 3 hours.
-
-Evaluation completes within 1 hour.
-
-No third-party deep learning libraries used.
-
-Only standard library + OpenCV (image loading) used.
-
-All operations implemented from scratch.
-
-11. Model Complexity Reporting
-The framework computes:
-
-Total trainable parameters
+Total parameters
 
 MACs per forward pass
 
 FLOPs per forward pass
 
-These are printed during training and documented in the report.
+Example (Dataset-2, 100 classes):
 
-12. Reproducibility
-Random seed fixed for weight initialization and dataset shuffling.
+Total parameters ≈ 30,000
+Total MACs ≈ 612,288
+Total FLOPs ≈ 1,224,576
 
-Deterministic behavior ensured.
+📂 Dataset Format
 
-13. Sources Used
-Official Python documentation
+Expected structure:
 
-C++ standard library documentation
+dataset_root/
+    class_0/
+        img1.png
+        img2.png
+        ...
+    class_1/
+        ...
 
-Pybind11 documentation
 
-Course materials
+Requirements:
 
-AI assistance (ChatGPT) for debugging and architectural guidance
+PNG images only
 
-14. Honour Code Compliance
-This implementation:
+Automatically resized to 32×32
 
-Uses only allowed tools.
+Labels inferred from folder names
 
-Does not use any external deep learning frameworks.
+Entire dataset preloaded into memory
 
-Does not use NumPy or similar numerical libraries.
+Dataset loading time printed
 
-Adheres to all assignment constraints.
+⚙️ Installation & Build Instructions
+1️⃣ Build C++ Backend
+
+From the cpp/ directory:
+
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+
+
+This generates the Python module:
+
+mydl_cpp
+
+2️⃣ Install Python Requirements
+
+Only OpenCV is required:
+
+pip install opencv-python
+
+🚀 Training
+
+Edit dataset path in train.py:
+
+train(
+    "path_to_dataset",
+    epochs=4,
+    batch_size=256,
+    lr=0.005,
+    weight_decay=2e-4,
+    patience=1
+)
+
+
+Then run:
+
+python train.py
+
+
+During training, the script prints:
+
+Dataset loading time
+
+Parameter count
+
+MACs and FLOPs
+
+Training loss
+
+Training accuracy
+
+Validation loss
+
+Validation accuracy
+
+Epoch time
+
+Early stopping status
+
+Best model is saved as:
+
+best_model.pkl
+
+🧪 Evaluation
+
+Edit dataset path and weight path in evaluation.py:
+
+evaluate(
+    dataset_path="path_to_test_dataset",
+    weights_path="best_model.pkl"
+)
+
+
+Run:
+
+python evaluation.py
+
+
+Outputs:
+
+Dataset loading time
+
+Parameter count
+
+MACs and FLOPs
+
+Evaluation accuracy
+
+Evaluation time
+
+⚠️ No code modification required by grader — only dataset path and weights path are needed.
+
+💾 Model Saving
+
+Weights are saved in:
+
+best_model.pkl
+
+
+Stored parameters:
+
+conv1 weights & bias
+
+conv2 weights & bias
+
+fully connected weights & bias
+
+🛠 Optimization Details
+
+Optimizer: SGD
+Learning Rate: configurable
+L2 Regularization: implemented via weight_decay
+Early Stopping: validation-based
+
+⏱ Performance Constraints
+
+The model is designed to:
+
+Train within 3 hours
+
+Evaluate within 1 hour
+
+Maintain moderate parameter count
+
+Balance accuracy vs computational cost
+
+📈 Observed Performance
+
+Dataset-1 (10 classes):
+
+Validation Accuracy ≈ 94–95%
+
+Dataset-2 (100 classes):
+
+Validation Accuracy ≈ 20–25% (lightweight model)
+
+Higher accuracy achievable with larger models (trade-off with training time)
+
+🔍 Reproducibility
+
+Random seed fixed
+
+Deterministic weight initialization
+
+Dataset split randomized but reproducible
+
+📌 Compliance Statement
+
+This project:
+
+Uses no external ML libraries
+
+Uses only standard C++ and Python libraries
+
+Uses OpenCV strictly for image loading
+
+Implements full backpropagation manually
+
+Complies fully with assignment constraints
+
+📚 Sources Used
+
+Course lectures
+
+Official C++ documentation
+
+pybind11 documentation
+
+Basic CNN architecture references
+
+AI assistance (ChatGPT) for debugging guidance
+
+🏁 Final Notes
+
+This implementation demonstrates:
+
+Full custom autograd engine
+
+Manual CNN implementation
+
+C++–Python integration
+
+Model complexity analysis
+
+Practical training & evaluation pipeline
