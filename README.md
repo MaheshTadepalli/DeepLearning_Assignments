@@ -4,20 +4,20 @@
 
 ---
 
-## 📘 Course Information
+## Course Information
 
 **Course:** Machine Learning for Remote Sensing – II (Spring 2025–26)
 **Assignment:** Design a Deep Learning Framework
 
 ---
 
-## 📖 Overview
+## Overview
 
 This repository contains a **custom deep learning framework** implemented completely from scratch.
 
 The framework consists of:
 
-### 🔹 C++ Backend
+###  C++ Backend
 
 * Tensor operations
 * Automatic differentiation
@@ -25,7 +25,7 @@ The framework consists of:
 * Activation functions
 * Linear layers
 
-### 🔹 Python Frontend
+###  Python Frontend
 
 * Dataset loading
 * Training & validation
@@ -34,14 +34,14 @@ The framework consists of:
 
 ---
 
-## ❗ Restrictions Followed
+##  Restrictions Followed
 
 No external deep learning libraries were used:
 
-* PyTorch ❌
-* TensorFlow ❌
-* NumPy ❌
-* SciPy ❌
+* PyTorch 
+* TensorFlow 
+* NumPy 
+* SciPy 
 
 Only the following were used:
 
@@ -51,7 +51,7 @@ Only the following were used:
 
 ---
 
-## 🚀 Framework Features
+##  Framework Features
 
 The framework supports:
 
@@ -69,7 +69,7 @@ The framework supports:
 
 ---
 
-## 🧠 Model Architecture
+##  Model Architecture
 
 ### Input
 
@@ -109,7 +109,7 @@ Loss: **Fused Softmax Cross Entropy**
 
 ---
 
-## 📊 Model Complexity Metrics
+##  Model Complexity Metrics
 
 Automatically printed during training:
 
@@ -119,7 +119,7 @@ Automatically printed during training:
 
 ---
 
-## 📂 Dataset Format
+##  Dataset Format
 
 Dataset must follow:
 
@@ -141,7 +141,7 @@ dataset_root/
 
 ---
 
-## ⚙️ Building the Framework
+##  Building the Framework
 
 ### Step 1 — Build C++ Backend
 
@@ -169,7 +169,7 @@ pip install opencv-python
 
 ---
 
-## 🏋️ Training
+##  Training
 
 ### Steps
 
@@ -191,7 +191,7 @@ pip install opencv-python
         )
     ```
     
-    👉 Replace the string with your dataset folder path:
+     Replace the string with your dataset folder path:
     
     Example:
     
@@ -225,7 +225,7 @@ best_model.pkl
 
 ---
 
-## 🧪 Evaluation
+##  Evaluation
 
 ### Steps
 
@@ -293,7 +293,7 @@ python evaluation.py
 
 ---
 
-## ⚡ Optimization Details
+##  Optimization Details
 
 * Optimizer: **SGD**
 * Learning Rate: Configurable
@@ -302,7 +302,7 @@ python evaluation.py
 
 ---
 
-## 🔁 Reproducibility
+##  Reproducibility
 
 * Fixed random seed
 * Deterministic initialization
@@ -310,7 +310,7 @@ python evaluation.py
 
 ---
 
-## ✅ Assignment Compliance
+##  Assignment Compliance
 
 This implementation:
 
@@ -323,7 +323,7 @@ This implementation:
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 cpp/                → C++ backend implementation
@@ -339,7 +339,7 @@ python/
 
 ---
 
-## 📝 Notes
+##  Notes
 
 The framework is designed to balance:
 
@@ -350,6 +350,6 @@ The framework is designed to balance:
 
 ---
 
-## 🎯 Summary
+##  Summary
 
 This project demonstrates a **complete deep learning pipeline** built entirely from first principles without using any deep learning libraries.
