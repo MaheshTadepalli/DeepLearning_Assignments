@@ -10,23 +10,23 @@ class SimpleCNN:
 
         # -------- Conv1 --------
         self.conv1_weight = mydl_cpp.Tensor(
-            [3, 3, 3, 64], True
+            [3, 3, 3, 16], True
         )
         self.conv1_bias = mydl_cpp.Tensor(
-            [64], True
+            [16], True
         )
 
         # -------- Conv2 --------
         self.conv2_weight = mydl_cpp.Tensor(
-            [3, 3, 64, 64], True
+            [3, 3, 16, 32], True
         )
         self.conv2_bias = mydl_cpp.Tensor(
-            [64], True
+            [32], True
         )
 
         # -------- Fully Connected --------
         self.fc_weight = mydl_cpp.Tensor(
-            [3 * 3 * 64, num_classes], True
+            [3 * 3 * 32, num_classes], True
         )
         self.fc_bias = mydl_cpp.Tensor(
             [num_classes], True
