@@ -1,22 +1,24 @@
-##GNR638 – Programming Assignment
+GNR638 – Programming Assignment
 Custom Deep Learning Framework (C++ Backend + Python Frontend)
-👤 Student Information
+Course Information
 
-Course: Machine Learning for Remote Sensing – II (Spring 2025-26)
+Course: Machine Learning for Remote Sensing – II (Spring 2025–26)
 Assignment: Design a Deep Learning Framework
 
-📌 Overview
+Overview
 
-This repository contains a custom deep learning framework built completely from scratch using:
+This repository contains a custom deep learning framework implemented completely from scratch.
 
-C++ backend (tensor operations, autograd, CNN layers)
+The framework consists of:
 
-Python frontend (training, evaluation, dataset handling)
+A C++ backend implementing tensor operations, automatic differentiation, convolution, pooling, activation, and linear layers.
 
-⚠️ No deep learning frameworks (PyTorch, TensorFlow, NumPy, etc.) were used.
-Only standard libraries and OpenCV (for image loading) are used as permitted.
+A Python frontend handling dataset loading, training, validation, evaluation, and optimization.
 
-🧠 Framework Features
+No external deep learning libraries (PyTorch, TensorFlow, NumPy, SciPy, etc.) were used.
+Only standard C++/Python libraries and OpenCV (strictly for image loading) are used, in accordance with assignment constraints.
+
+Framework Features
 
 The framework supports:
 
@@ -24,91 +26,106 @@ Tensor abstraction with gradient tracking
 
 Automatic differentiation (backpropagation)
 
-Convolution layer
+Convolutional layers
 
 ReLU activation
 
-MaxPooling layer
+MaxPooling layers
 
-Fully connected layer
+Fully connected (linear) layers
 
-Softmax + Cross Entropy loss
+Fused Softmax + Cross Entropy loss
 
 SGD optimizer with L2 regularization
 
-Training / Validation split
-
 Early stopping
 
-Model saving & loading
+Model saving and loading
 
-🏗 Model Architecture
+MACs and FLOPs computation
 
-The CNN used for both Dataset-1 and Dataset-2:
+Model Architecture
 
-Input: 32×32×3 image
+The CNN architecture used is:
 
-Conv1: 3×3 kernel, 3 → 16 filters
+Input: 32 × 32 × 3
+
+Convolution Layer 1
+
+Kernel size: 3 × 3
+
+Channels: 3 → 16
+
+Output: 30 × 30 × 16
+
 ReLU
-MaxPool (2×2, stride 2)
 
-Conv2: 3×3 kernel, 16 → 32 filters
+MaxPool (2 × 2, stride 2)
+
+Output: 15 × 15 × 16
+
+Convolution Layer 2
+
+Kernel size: 3 × 3
+
+Channels: 16 → 32
+
+Output: 13 × 13 × 32
+
 ReLU
-MaxPool (2×2, stride 2)
-MaxPool (2×2, stride 2)
+
+MaxPool (2 × 2, stride 2)
+
+MaxPool (2 × 2, stride 2)
+
+Final feature map: 3 × 3 × 32
 
 Flatten
 
-Fully Connected:
-(3×3×32) → num_classes
+Fully Connected Layer
 
-Softmax (via fused softmax_cross_entropy)
+3 × 3 × 32 → Number of classes
 
-📊 Model Complexity
+Loss is computed using fused Softmax Cross Entropy.
 
-Printed automatically during training:
+Model Complexity
 
-Total parameters
+The following metrics are automatically printed during training and evaluation:
 
-MACs per forward pass
+Total number of trainable parameters
+
+MACs (Multiply–Accumulate operations)
 
 FLOPs per forward pass
 
-Example (Dataset-2, 100 classes):
+These values depend on the number of output classes.
 
-Total parameters ≈ 30,000
-Total MACs ≈ 612,288
-Total FLOPs ≈ 1,224,576
+Dataset Format
 
-📂 Dataset Format
-
-Expected structure:
+The dataset must follow an image-folder structure:
 
 dataset_root/
     class_0/
         img1.png
         img2.png
-        ...
     class_1/
         ...
 
 
 Requirements:
 
-PNG images only
+Images must be PNG format
 
-Automatically resized to 32×32
+Automatically resized to 32 × 32
 
-Labels inferred from folder names
+Labels are inferred from folder names
 
-Entire dataset preloaded into memory
+Dataset loading time is measured and printed
 
-Dataset loading time printed
+Building the Framework
+Step 1: Build C++ Backend
 
-⚙️ Installation & Build Instructions
-1️⃣ Build C++ Backend
-
-From the cpp/ directory:
+From the cpp directory:
 
 mkdir build
 cd build
@@ -120,32 +137,26 @@ This generates the Python module:
 
 mydl_cpp
 
-2️⃣ Install Python Requirements
+Step 2: Install Python Dependency
 
 Only OpenCV is required:
 
 pip install opencv-python
 
-🚀 Training
+Training
 
-Edit dataset path in train.py:
+To train the model:
 
-train(
-    "path_to_dataset",
-    epochs=4,
-    batch_size=256,
-    lr=0.005,
-    weight_decay=2e-4,
-    patience=1
-)
+Open train.py
 
+Set the dataset path
 
-Then run:
+Run:
 
 python train.py
 
 
-During training, the script prints:
+The training script prints:
 
 Dataset loading time
 
@@ -165,26 +176,28 @@ Epoch time
 
 Early stopping status
 
-Best model is saved as:
+The best performing model (based on validation accuracy) is saved as:
 
 best_model.pkl
 
-🧪 Evaluation
+Evaluation
 
-Edit dataset path and weight path in evaluation.py:
+To evaluate on a test dataset:
 
-evaluate(
-    dataset_path="path_to_test_dataset",
-    weights_path="best_model.pkl"
-)
+Open evaluation.py
 
+Set:
+
+dataset_path
+
+weights_path
 
 Run:
 
 python evaluation.py
 
 
-Outputs:
+The script prints:
 
 Dataset loading time
 
@@ -196,98 +209,62 @@ Evaluation accuracy
 
 Evaluation time
 
-⚠️ No code modification required by grader — only dataset path and weights path are needed.
+No code modification is required by the grader beyond dataset and weight paths.
 
-💾 Model Saving
+Optimization Details
 
-Weights are saved in:
+Optimizer: Stochastic Gradient Descent (SGD)
 
-best_model.pkl
-
-
-Stored parameters:
-
-conv1 weights & bias
-
-conv2 weights & bias
-
-fully connected weights & bias
-
-🛠 Optimization Details
-
-Optimizer: SGD
 Learning Rate: configurable
-L2 Regularization: implemented via weight_decay
+
+L2 Regularization: implemented via weight decay
+
 Early Stopping: validation-based
 
-⏱ Performance Constraints
+Reproducibility
 
-The model is designed to:
+Fixed random seed
 
-Train within 3 hours
+Deterministic initialization
 
-Evaluate within 1 hour
+Explicit training-validation split
 
-Maintain moderate parameter count
+Assignment Compliance
 
-Balance accuracy vs computational cost
+This implementation:
 
-📈 Observed Performance
+Uses no external ML frameworks
 
-Dataset-1 (10 classes):
-
-Validation Accuracy ≈ 94–95%
-
-Dataset-2 (100 classes):
-
-Validation Accuracy ≈ 20–25% (lightweight model)
-
-Higher accuracy achievable with larger models (trade-off with training time)
-
-🔍 Reproducibility
-
-Random seed fixed
-
-Deterministic weight initialization
-
-Dataset split randomized but reproducible
-
-📌 Compliance Statement
-
-This project:
-
-Uses no external ML libraries
-
-Uses only standard C++ and Python libraries
+Implements backpropagation manually
 
 Uses OpenCV strictly for image loading
 
-Implements full backpropagation manually
+Computes model complexity (Parameters, MACs, FLOPs)
 
-Complies fully with assignment constraints
+Supports reproducible training and evaluation
 
-📚 Sources Used
+Meets assignment time constraints
 
-Course lectures
+Repository Structure
+cpp/                → C++ backend implementation
+python/
+    train.py        → Training script
+    evaluation.py   → Evaluation script
+    model.py        → CNN architecture
+    dataset.py      → Dataset loader
+    loss.py         → Cross entropy & accuracy
+    optimizer.py    → SGD implementation
 
-Official C++ documentation
+Notes
 
-pybind11 documentation
+The framework is designed to balance:
 
-Basic CNN architecture references
+Model complexity
 
-AI assistance (ChatGPT) for debugging guidance
+Training time constraints
 
-🏁 Final Notes
+Validation accuracy
 
-This implementation demonstrates:
+Computational efficiency
 
-Full custom autograd engine
-
-Manual CNN implementation
-
-C++–Python integration
-
-Model complexity analysis
-
-Practical training & evaluation pipeline
+This implementation demonstrates a full deep learning pipeline built entirely from first principles.
