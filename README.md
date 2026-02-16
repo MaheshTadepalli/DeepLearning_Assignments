@@ -231,10 +231,51 @@ best_model.pkl
 
 1. Open `evaluation.py`
 
-2. Set:
+2. Setting Dataset Path and Weights Path
 
-   * dataset_path
-   * weights_path
+    Go to the **bottom of the file**:
+    
+    ```python
+    if __name__ == "__main__":
+    
+        evaluate(
+            dataset_path="C:/mine/ASSIGNMENTS/DL/assign1/data_1",  # ← SET TEST DATASET PATH HERE
+            weights_path="best_model.pkl"  # ← SET SAVED MODEL PATH HERE
+        )
+    ```
+    Dataset Path
+    
+    Change to your evaluation dataset location:
+    
+    Example:
+    
+   ```python
+            dataset_path="D:/dataset/test_data"
+   ```
+   Weights Path
+            
+   Set to the trained model file:
+            
+   Default:
+            
+   ```python
+            weights_path="best_model.pkl"
+   ```
+            
+   If stored elsewhere:
+            
+   ```python
+            weights_path="D:/models/best_model.pkl"
+   ```
+    
+    Important Notes
+    
+        * Dataset path must point to the **root folder**, not individual class folders.
+        * `best_model.pkl` is automatically created after training.
+        * No other code changes are required.
+    
+    ---
+    
 
 3. Run:
 
