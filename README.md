@@ -174,8 +174,34 @@ pip install opencv-python
 ### Steps
 
 1. Open `train.py`
-2. Set dataset path
-3. Run:
+2. Setting Dataset Path
+
+    Go to the **bottom of the file**:
+    
+    ```python
+    if __name__ == "__main__":
+    
+        train(
+            "C:/mine/ASSIGNMENTS/DL/assign1/data_2",  # ← SET YOUR DATASET PATH HERE
+            epochs=4,
+            batch_size=256,
+            lr=0.005,
+            weight_decay=2e-4,
+            patience=1
+        )
+    ```
+    
+    👉 Replace the string with your dataset folder path:
+    
+    Example:
+    
+    ```python
+    train("D:/dataset/train_data")
+    ```
+    
+    This path must point to the **dataset root folder** containing class subfolders.
+
+4. Run:
 
 ```bash
 python train.py
